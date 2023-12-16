@@ -36,7 +36,8 @@ app.post("/", urlencodedParser, async (req, res) => {
 
     // Add remaining data
     data.src = "data:image/png;base64," + base64image;
-    data.date = format(new Date(data.date), "MMM. yyyy");
+    const parsedDate = new Date(data.date);
+    data.date = format(parsedDate, "MMM. dd, yyyy");
     data.id = uuidv4();
     data.ref = Math.floor(1000 + Math.random() * 9000);
 
@@ -44,6 +45,7 @@ app.post("/", urlencodedParser, async (req, res) => {
     const html = template(data);
 
     // Launch puppeteer
+    
     const browser = await puppeteer.launch({
         headless: true,
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
